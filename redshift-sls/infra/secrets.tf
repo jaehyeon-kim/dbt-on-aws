@@ -6,11 +6,13 @@ resource "random_password" "vpn_pre_shared_key" {
 }
 
 resource "random_password" "vpn_admin_pw" {
-  length = 16
+  length  = 16
+  special = false
 }
 
 resource "random_password" "redshift_admin_pw" {
-  length = 16
+  length  = 16
+  special = false
 }
 
 resource "aws_secretsmanager_secret" "all_secrets" {
@@ -26,8 +28,9 @@ resource "aws_secretsmanager_secret_version" "all_secrets" {
   secret_string = <<EOF
   {
     "vpn_pre_shared_key": "${random_password.vpn_pre_shared_key.result}",
-    "vpn_admin_pw": "${random_password.vpn_admin_pw.result}",
-    "redshift_admin_pw": "${random_password.redshift_admin_pw.result}"
+    "vpn_admin_password": "${random_password.vpn_admin_pw.result}",
+    "redshift_admin_username": "${local.redshift.admin_username}",
+    "redshift_admin_password": "${random_password.redshift_admin_pw.result}"
   }
 EOF
 }

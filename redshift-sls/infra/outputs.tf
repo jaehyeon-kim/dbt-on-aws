@@ -88,4 +88,3 @@ output "redshift_wg_endpoint" {
   description = "Endpoint that is created from the workgroup"
   value       = aws_redshiftserverless_workgroup.workgroup.endpoint
 }
-

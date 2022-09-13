@@ -31,7 +31,7 @@ module "vpn" {
             aws_region     = local.region,
             allocation_id  = aws_eip.vpn[0].allocation_id,
             vpn_psk        = local.secrets.vpn_pre_shared_key,
-            admin_password = local.secrets.vpn_admin_pw
+            admin_password = local.secrets.vpn_admin_password
           }),
           permissions : "0755",
         }

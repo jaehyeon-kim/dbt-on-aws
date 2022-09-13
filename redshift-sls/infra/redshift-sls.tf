@@ -3,7 +3,7 @@ resource "aws_redshiftserverless_namespace" "namespace" {
   namespace_name = "${local.name}-namespace"
 
   admin_username       = local.redshift.admin_username
-  admin_user_password  = local.secrets.admin_password
+  admin_user_password  = local.secrets.redshift_admin_password
   db_name              = local.redshift.db_name
   default_iam_role_arn = aws_iam_role.redshift_serverless_role.arn
 
@@ -24,7 +24,7 @@ resource "aws_redshiftserverless_workgroup" "workgroup" {
 resource "aws_redshiftserverless_usage_limit" "usage_limit" {
   resource_arn = aws_redshiftserverless_workgroup.workgroup.arn
   usage_type   = "serverless-compute"
-  amount       = 10
+  amount       = local.redshift.base_capacity
 }
 
 resource "aws_redshiftserverless_endpoint_access" "endpoint_access" {
@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "redshift_serverless_assume_role_policy" {
 
 # Security group resources for master, slace and service access
 resource "aws_security_group" "vpn_redshift_serverless_access" {
-  name   = "${local.name}-redshift-vpn-access"
+  name   = "${local.name}-vpn-redshift-access"
   vpc_id = module.vpc.vpc_id
 
   lifecycle {
