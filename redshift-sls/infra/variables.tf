@@ -27,7 +27,7 @@ locals {
   }
 
   redshift = {
-    base_capacity  = 32
+    base_capacity  = 128
     admin_username = "master"
     db_name        = "main"
   }

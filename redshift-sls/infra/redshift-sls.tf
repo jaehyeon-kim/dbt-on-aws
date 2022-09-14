@@ -6,6 +6,7 @@ resource "aws_redshiftserverless_namespace" "namespace" {
   admin_user_password  = local.secrets.redshift_admin_password
   db_name              = local.redshift.db_name
   default_iam_role_arn = aws_iam_role.redshift_serverless_role.arn
+  iam_roles            = [aws_iam_role.redshift_serverless_role.arn]
 
   tags = local.tags
 }
@@ -19,12 +20,6 @@ resource "aws_redshiftserverless_workgroup" "workgroup" {
   security_group_ids = [aws_security_group.vpn_redshift_serverless_access.id]
 
   tags = local.tags
-}
-
-resource "aws_redshiftserverless_usage_limit" "usage_limit" {
-  resource_arn = aws_redshiftserverless_workgroup.workgroup.arn
-  usage_type   = "serverless-compute"
-  amount       = local.redshift.base_capacity
 }
 
 resource "aws_redshiftserverless_endpoint_access" "endpoint_access" {
