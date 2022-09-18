@@ -2,11 +2,137 @@ version: 2
 
 sources:
   - name: gdelt_external
-    description: GDELT V1.0 event database of year 2018 and lookup tables
+    description: GDELT 1.0 event database of year 2018 and lookup tables
     database: main
     schema: gdelt_external
     loader: s3
     tables:
+      - name: event
+        description: GDELT 1.0 event data
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/events/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+        columns:
+          - name: globaleventid
+            data_type: bigint
+          - name: sqldate
+            data_type: text
+          - name: monthyear
+            data_type: text
+          - name: year
+            data_type: int
+          - name: fractiondate
+            data_type: float
+          - name: actor1code
+            data_type: text
+          - name: actor1name
+            data_type: text
+          - name: actor1countrycode
+            data_type: text
+          - name: actor1knowngroupcode
+            data_type: text
+          - name: actor1ethniccode
+            data_type: text
+          - name: actor1religion1code
+            data_type: text
+          - name: actor1religion2code
+            data_type: text
+          - name: actor1type1code
+            data_type: text
+          - name: actor1type2code
+            data_type: text
+          - name: actor1type3code
+            data_type: text
+          - name: actor2code
+            data_type: text
+          - name: actor2name
+            data_type: text
+          - name: actor2countrycode
+            data_type: text
+          - name: actor2knowngroupcode
+            data_type: text
+          - name: actor2ethniccode
+            data_type: text
+          - name: actor2religion1code
+            data_type: text
+          - name: actor2religion2code
+            data_type: text
+          - name: actor2type1code
+            data_type: text
+          - name: actor2type2code
+            data_type: text
+          - name: actor2type3code
+            data_type: text
+          - name: isrootevent
+            data_type: boolean
+          - name: eventcode
+            data_type: text
+          - name: eventbasecode
+            data_type: text
+          - name: eventrootcode
+            data_type: text
+          - name: quadclass
+            data_type: int
+          - name: goldsteinscale
+            data_type: float
+          - name: nummentions
+            data_type: int
+          - name: numsources
+            data_type: int
+          - name: numarticles
+            data_type: int
+          - name: avgtone
+            data_type: float
+          - name: actor1geo_type
+            data_type: int
+          - name: actor1geo_fullname
+            data_type: text
+          - name: actor1geo_countrycode
+            data_type: text
+          - name: actor1geo_adm1code
+            data_type: text
+          - name: actor1geo_lat
+            data_type: float
+          - name: actor1geo_long
+            data_type: float
+          - name: actor1geo_featureid
+            data_type: int
+          - name: actor2geo_type
+            data_type: int
+          - name: actor2geo_fullname
+            data_type: text
+          - name: actor2geo_countrycode
+            data_type: text
+          - name: actor2geo_adm1code
+            data_type: text
+          - name: actor2geo_lat
+            data_type: float
+          - name: actor2geo_long
+            data_type: float
+          - name: actor2geo_featureid
+            data_type: int
+          - name: actiongeo_type
+            data_type: int
+          - name: actiongeo_fullname
+            data_type: text
+          - name: actiongeo_countrycode
+            data_type: text
+          - name: actiongeo_adm1code
+            data_type: text
+          - name: actiongeo_lat
+            data_type: float
+          - name: actiongeo_long
+            data_type: float
+          - name: actiongeo_featureid
+            data_type: int
+          - name: dateadded
+            data_type: text
+          - name: sourceurl
+            data_type: "varchar(max)"
       - name: event_code
         description: CAMEO event taxonomy, which is a collection of more than 300 types of events organized into a hierarchical taxonomy and recorded in the files as a numeric code.
         external:
@@ -19,6 +145,95 @@ sources:
           table_properties: "('skip.header.line.count'='1')"
         columns:
           - name: code
-            data_type: varchar(4)
+            data_type: text
           - name: description
-            data_type: varchar(255)
+            data_type: text
+      - name: country_code
+        description: CAMEO country code - mapped to actor fields
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/cameo_country/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text
+      - name: fips_country_code
+        description: FIPS country code - mapped to geo fields
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/fips_country/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text
+      - name: type_code
+        description: CAMEO type code
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/cameo_type/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text
+      - name: known_group_code
+        description: CAMEO known group code
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/cameo_knowngroup/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text
+      - name: ethnic_code
+        description: CAMEO ethnic code
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/cameo_ethnic/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text
+      - name: religion_code
+        description: CAMEO religion code
+        external:
+          location: "s3://redshift-sls-590312749310-ap-southeast-2/cameo_religion/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: code
+            data_type: text
+          - name: label
+            data_type: text

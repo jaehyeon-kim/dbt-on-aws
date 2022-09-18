@@ -1,0 +1,72 @@
+{{ 
+    config(
+        materialized='view',
+        bind=False
+    )
+}}
+with source as (
+    select * from {{ source('gdelt_external', 'event') }}
+),
+renamed as (
+    select
+        globaleventid as global_event_id,
+        sqldate as sql_date,
+        monthyear as month_year,
+        year,
+        fractiondate as fraction_date,
+        actor1code as actor1_code,
+        actor1name as actor1_name,
+        actor1countrycode as actor1_country_code,
+        actor1knowngroupcode as actor1_known_group_code,
+        actor1ethniccode as actor1_ethnic_code,
+        actor1religion1code as actor1_religion1_code,
+        actor1religion2code as actor1_religion2_code,
+        actor1type1code as actor1_type1_code,
+        actor1type2code as actor1_type2_code,
+        actor1type3code as actor1_type3_code,
+        actor2code as actor2_code,
+        actor2name as actor2_name,
+        actor2countrycode as actor2_country_code,
+        actor2knowngroupcode as actor2_known_group_code,
+        actor2ethniccode as actor2_ethnic_code,
+        actor2religion1code as actor2_religion1_code,
+        actor2religion2code as actor2_religion2_code,
+        actor2type1code as actor2_type1_code,
+        actor2type2code as actor2_type2_code,
+        actor2type3code as actor2_type3_code,
+        isrootevent as is_root_event,
+        eventcode as event_code,
+        eventbasecode as event_base_code,
+        eventrootcode as event_root_code,
+        quadclass as quad_class,
+        goldsteinscale as gold_stein_scale,
+        nummentions as num_mentions,
+        numsources as num_sources,
+        numarticles as num_articles,
+        avgtone as avg_tone,
+        actor1geo_type as actor1_geo_type,
+        actor1geo_fullname as actor1_geo_full_name,
+        actor1geo_countrycode as actor1_geo_country_code,
+        actor1geo_adm1code as actor1_geo_adm1_code,
+        actor1geo_lat as actor1_geo_lat,
+        actor1geo_long as actor1_geo_long,
+        actor1geo_featureid as actor1_geo_feature_id,
+        actor2geo_type as actor2_geo_type,
+        actor2geo_fullname as actor2_geo_full_name,
+        actor2geo_countrycode as actor2_geo_country_code,
+        actor2geo_adm1code as actor2_geo_adm1_code,
+        actor2geo_lat as actor2_geo_lat,
+        actor2geo_long as actor2_geo_long,
+        actor2geo_featureid as actor2_geo_feature_id,
+        actiongeo_type as action_geo_type,
+        actiongeo_fullname as action_geo_full_name,
+        actiongeo_countrycode as action_geo_country_code,
+        actiongeo_adm1code as action_geo_adm1_code,
+        actiongeo_lat as action_geo_lat,
+        actiongeo_long as action_geo_long,
+        actiongeo_featureid as action_geo_feature_id,
+        dateadded as date_added,
+        sourceurl as source_url
+    from source
+)
+select * from renamed
