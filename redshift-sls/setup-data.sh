@@ -15,8 +15,7 @@ declare -a file_names=(
   "CAMEO.type.txt" \
   "CAMEO.knowngroup.txt" \
   "CAMEO.ethnic.txt" \
-  "CAMEO.religion.txt" \
-  "CAMEO.goldsteinscale.txt"
+  "CAMEO.religion.txt"
   )
 
 for fn in "${file_names[@]}"
