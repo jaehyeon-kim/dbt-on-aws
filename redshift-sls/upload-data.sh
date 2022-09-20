@@ -18,7 +18,7 @@ for fn in "${file_names[@]}"
 do
   download_url="https://$hostname/$fn"
   prefix=$(echo ${fn::-7} | tr '.' '_')
-  echo "download imdb/$prefix/$fn from https://$hostname/$fn"
+  echo "download imdb/$prefix/$fn from $download_url"
   while true;
   do
     mkdir -p imdb/$prefix
