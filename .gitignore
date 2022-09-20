@@ -1,5 +1,6 @@
 .local
 *.pem
+imdb
 
 ## terraform related
 # Local .terraform directories
