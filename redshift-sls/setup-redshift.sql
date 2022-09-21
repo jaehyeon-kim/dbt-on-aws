@@ -1,5 +1,5 @@
 -- // create db schemas
-create schema if not exists staging;
+create schema if not exists imdb;
 create schema if not exists marts;
 
 -- // create db user and group
@@ -7,22 +7,22 @@ create user dbt with password '<password>';
 create group dbt with user dbt;
 
 -- // grant permissions to new schemas
-grant usage on schema staging to group dbt;
-grant create on schema staging to group dbt;
-grant all on all tables in schema staging to group dbt;
+grant usage on schema imdb to group dbt;
+grant create on schema imdb to group dbt;
+grant all on all tables in schema imdb to group dbt;
 
 grant usage on schema marts to group dbt;
 grant create on schema marts to group dbt;
 grant all on all tables in schema marts to group dbt;
 
 -- reassign schema ownership to dbt
-alter schema staging owner to dbt;
+alter schema imdb owner to dbt;
 alter schema marts owner to dbt;
 
 -- // copy data to tables
 -- name_basics
-drop table if exists staging.name_basics;
-create table staging.name_basics (
+drop table if exists imdb.name_basics;
+create table imdb.name_basics (
     nconst text,
     primaryName text,
     birthYear text,
@@ -31,7 +31,7 @@ create table staging.name_basics (
     knownForTitles text
 );
 
-copy staging.name_basics
+copy imdb.name_basics
 from 's3://<s3-bucket-name>/name_basics'
 iam_role default
 delimiter '\t'
@@ -39,8 +39,8 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_akas
-drop table if exists staging.title_akas;
-create table staging.title_akas (
+drop table if exists imdb.title_akas;
+create table imdb.title_akas (
     titleId text,
     ordering int,
     title varchar(max),
@@ -51,7 +51,7 @@ create table staging.title_akas (
     isOriginalTitle boolean
 );
 
-copy staging.title_akas
+copy imdb.title_akas
 from 's3://<s3-bucket-name>/title_akas'
 iam_role default
 delimiter '\t'
@@ -59,8 +59,8 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_basics
-drop table if exists staging.title_basics;
-create table staging.title_basics (
+drop table if exists imdb.title_basics;
+create table imdb.title_basics (
     tconst text,
     titleType text,
     primaryTitle varchar(max),
@@ -72,7 +72,7 @@ create table staging.title_basics (
     genres text
 );
 
-copy staging.title_basics
+copy imdb.title_basics
 from 's3://<s3-bucket-name>/title_basics'
 iam_role default
 delimiter '\t'
@@ -80,14 +80,14 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_crew
-drop table if exists staging.title_crew;
-create table staging.title_crew (
+drop table if exists imdb.title_crew;
+create table imdb.title_crew (
     tconst text,
     directors varchar(max),
     writers varchar(max)
 );
 
-copy staging.title_crew
+copy imdb.title_crew
 from 's3://<s3-bucket-name>/title_crew'
 iam_role default
 delimiter '\t'
@@ -95,15 +95,15 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_episode
-drop table if exists staging.title_episode;
-create table staging.title_episode (
+drop table if exists imdb.title_episode;
+create table imdb.title_episode (
     tconst text,
     parentTconst text,
     seasonNumber int,
     episodeNumber int
 );
 
-copy staging.title_episode
+copy imdb.title_episode
 from 's3://<s3-bucket-name>/title_episode'
 iam_role default
 delimiter '\t'
@@ -111,8 +111,8 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_principals
-drop table if exists staging.title_principals;
-create table staging.title_principals (
+drop table if exists imdb.title_principals;
+create table imdb.title_principals (
     tconst text,
     ordering int,
     nconst text,
@@ -121,7 +121,7 @@ create table staging.title_principals (
     characters varchar(max)
 );
 
-copy staging.title_principals
+copy imdb.title_principals
 from 's3://<s3-bucket-name>/title_principals'
 iam_role default
 delimiter '\t'
@@ -129,14 +129,14 @@ region 'ap-southeast-2'
 ignoreheader 1;
 
 -- title_ratings
-drop table if exists staging.title_ratings;
-create table staging.title_ratings (
+drop table if exists imdb.title_ratings;
+create table imdb.title_ratings (
     tconst text,
     averageRating float,
     numVotes int
 );
 
-copy staging.title_ratings
+copy imdb.title_ratings
 from 's3://<s3-bucket-name>/title_ratings'
 iam_role default
 delimiter '\t'
