@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-s3_bucket="redshift-sls-590312749310-ap-southeast-2"
+s3_bucket="<s3-bucket-name>"
 hostname="datasets.imdbws.com"
 declare -a file_names=(
   "name.basics.tsv.gz" \
