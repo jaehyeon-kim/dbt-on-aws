@@ -79,31 +79,31 @@ delimiter '\t'
 region 'ap-southeast-2'
 ignoreheader 1;
 
--- title_crew
-drop table if exists imdb.title_crew;
-create table imdb.title_crew (
+-- title_crews
+drop table if exists imdb.title_crews;
+create table imdb.title_crews (
     tconst text,
     directors varchar(max),
     writers varchar(max)
 );
 
-copy imdb.title_crew
+copy imdb.title_crews
 from 's3://<s3-bucket-name>/title_crew'
 iam_role default
 delimiter '\t'
 region 'ap-southeast-2'
 ignoreheader 1;
 
--- title_episode
-drop table if exists imdb.title_episode;
-create table imdb.title_episode (
+-- title_episodes
+drop table if exists imdb.title_episodes;
+create table imdb.title_episodes (
     tconst text,
     parentTconst text,
     seasonNumber int,
     episodeNumber int
 );
 
-copy imdb.title_episode
+copy imdb.title_episodes
 from 's3://<s3-bucket-name>/title_episode'
 iam_role default
 delimiter '\t'
