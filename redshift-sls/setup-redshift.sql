@@ -24,11 +24,11 @@ alter schema marts owner to dbt;
 drop table if exists imdb.name_basics;
 create table imdb.name_basics (
     nconst text,
-    primaryName text,
-    birthYear text,
-    deathYear text,
-    primaryProfession text,
-    knownForTitles text
+    primary_name text,
+    birth_year text,
+    death_year text,
+    primary_profession text,
+    known_for_titles text
 );
 
 copy imdb.name_basics
@@ -41,14 +41,14 @@ ignoreheader 1;
 -- title_akas
 drop table if exists imdb.title_akas;
 create table imdb.title_akas (
-    titleId text,
+    title_id text,
     ordering int,
     title varchar(max),
     region text,
     language text,
     types text,
     attributes text,
-    isOriginalTitle boolean
+    is_original_title boolean
 );
 
 copy imdb.title_akas
@@ -62,13 +62,13 @@ ignoreheader 1;
 drop table if exists imdb.title_basics;
 create table imdb.title_basics (
     tconst text,
-    titleType text,
-    primaryTitle varchar(max),
-    originalTitle varchar(max),
-    isAdult boolean,
-    startYear text,
-    endYear text,
-    runtimeMinutes text,
+    title_type text,
+    primary_title varchar(max),
+    original_title varchar(max),
+    is_adult boolean,
+    start_year text,
+    end_year text,
+    runtime_minutes text,
     genres text
 );
 
@@ -98,9 +98,9 @@ ignoreheader 1;
 drop table if exists imdb.title_episodes;
 create table imdb.title_episodes (
     tconst text,
-    parentTconst text,
-    seasonNumber int,
-    episodeNumber int
+    parent_tconst text,
+    season_number int,
+    episode_number int
 );
 
 copy imdb.title_episodes
@@ -132,8 +132,8 @@ ignoreheader 1;
 drop table if exists imdb.title_ratings;
 create table imdb.title_ratings (
     tconst text,
-    averageRating float,
-    numVotes int
+    average_rating float,
+    num_votes int
 );
 
 copy imdb.title_ratings
