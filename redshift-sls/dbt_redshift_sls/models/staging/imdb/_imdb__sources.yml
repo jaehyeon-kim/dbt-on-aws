@@ -1,0 +1,132 @@
+version: 2
+
+sources:
+  - name: imdb
+    description: Subsets of IMDb data, which are available for access to customers for personal and non-commercial use
+    tables:
+      - name: name_basics
+        description: This table contains basic information for names
+        columns:
+          - name: nconst
+            description: alphanumeric unique identifier of the name/person
+            tests:
+              - unique
+              - not_null
+          - name: primary_name
+            description: name by which the person is most often credited
+          - name: birth_year
+            description: birth year in YYYY format
+          - name: death_year
+            description: death year in YYYY format if applicable, else NULL
+          - name: primary_profession
+            description: the top-3 professions of the person
+          - name: known_for_titles
+            description: titles the person is known for
+      - name: title_akas
+        description: This table contains different distribution of titles
+        columns:
+          - name: title_id
+            description: a tconst, an alphanumeric unique identifier of the title
+            tests:
+              - not_null
+          - name: ordering
+            description: a number to uniquely identify rows for a given titleId
+            tests:
+              - not_null
+          - name: title
+            description: the localized title
+          - name: region
+            description: the region for this version of the title
+          - name: language
+            description: the language of the title
+          - name: types
+            description: >
+              enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". new values may be added in the future without warning
+          - name: attributes
+            description: additional terms to describe this alternative title, not enumerated
+          - name: is_original_title
+            description: flag that indicates whether it is an original title or not
+      - name: title_basics
+        description: This table contains basic information of titles
+        columns:
+          - name: tconst
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: title_type
+            description: the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)
+          - name: primary_title
+            description: the more popular title / the title used by the filmmakers on promotional materials at the point of release
+          - name: original_title
+            description: original title, in the original language
+          - name: is_adult
+            description: flag that indicates whether it is an adult title or not
+          - name: start_year
+            description: represents the release year of a title. In the case of TV Series, it is the series start year
+          - name: end_year
+            description: TV Series end year. NULL for all other title types
+          - name: runtime_minutes
+            description: primary runtime of the title, in minutes
+          - name: genres
+            description: includes up to three genres associated with the title
+      - name: title_crews
+        description: This table contains directors and writers of titles
+        columns:
+          - name: tconst
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: directors
+            description: director(s) of the given title
+          - name: writers
+            description: writer(s) of the given title
+      - name: title_episodes
+        description: This table contains TV episode information
+        columns:
+          - name: tconst
+            description: alphanumeric identifier of episode
+            tests:
+              - not_null
+          - name: parent_tconst
+            description: alphanumeric identifier of the parent TV Series
+            tests:
+              - not_null
+          - name: season_number
+            description: season number the episode belongs to
+          - name: episode_number
+            description: episode number of the tconst in the TV series
+      - name: title_principals
+        description: This table contains the principal cast/crew for titles
+        columns:
+          - name: tconst
+            description: alphanumeric unique identifier of the title
+            tests:
+              - not_null
+          - name: ordering
+            description: a number to uniquely identify rows for a given titleId
+            tests:
+              - not_null
+          - name: nconst
+            description: alphanumeric unique identifier of the name/person
+            tests:
+              - not_null
+          - name: category
+            description: the category of job that person was in
+          - name: job
+            description: the specific job title if applicable, else NULL
+          - name: characters
+            description: the name of the character played if applicable, else NULL
+      - name: title_ratings
+        description: This table contains the IMDb rating and votes information for titles
+        columns:
+          - name: tconst
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: average_rating
+            description: weighted average of all the individual user ratings
+          - name: num_votes
+            description: number of votes the title has received
