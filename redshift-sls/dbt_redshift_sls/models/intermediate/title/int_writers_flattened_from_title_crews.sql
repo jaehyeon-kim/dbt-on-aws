@@ -4,6 +4,6 @@ with recursive cte (id, idx, field) as (
 
 select 
     id as title_id, 
-    field as writer
+    field as name_id
 from cte
 order by id

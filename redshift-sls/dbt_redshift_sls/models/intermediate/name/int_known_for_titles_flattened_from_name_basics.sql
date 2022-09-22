@@ -4,6 +4,6 @@ with recursive cte (id, idx, field) as (
 
 select 
     id as name_id, 
-    field as known_for_title
+    field as title_id
 from cte
 order by id
