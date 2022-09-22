@@ -8,7 +8,7 @@ renamed as (
 
     select
         tconst as title_id,
-        parent_tconst,
+        parent_tconst as parent_title_id,
         season_number,
         episode_number
     from source
