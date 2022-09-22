@@ -5,7 +5,7 @@ sources:
     description: Subsets of IMDb data, which are available for access to customers for personal and non-commercial use
     tables:
       - name: name_basics
-        description: This table contains basic information for names
+        description: Table that contains basic information for names
         columns:
           - name: nconst
             description: alphanumeric unique identifier of the name/person
@@ -23,7 +23,7 @@ sources:
           - name: known_for_titles
             description: titles the person is known for
       - name: title_akas
-        description: This table contains different distribution of titles
+        description: Table that contains different distribution of titles
         columns:
           - name: title_id
             description: a tconst, an alphanumeric unique identifier of the title
@@ -47,7 +47,7 @@ sources:
           - name: is_original_title
             description: flag that indicates whether it is an original title or not
       - name: title_basics
-        description: This table contains basic information of titles
+        description: Table that contains basic information of titles
         columns:
           - name: tconst
             description: alphanumeric unique identifier of the title
@@ -71,7 +71,7 @@ sources:
           - name: genres
             description: includes up to three genres associated with the title
       - name: title_crews
-        description: This table contains directors and writers of titles
+        description: Table that contains directors and writers of titles
         columns:
           - name: tconst
             description: alphanumeric unique identifier of the title
@@ -83,7 +83,7 @@ sources:
           - name: writers
             description: writer(s) of the given title
       - name: title_episodes
-        description: This table contains TV episode information
+        description: Table that contains TV episode information
         columns:
           - name: tconst
             description: alphanumeric identifier of episode
@@ -98,7 +98,7 @@ sources:
           - name: episode_number
             description: episode number of the tconst in the TV series
       - name: title_principals
-        description: This table contains the principal cast/crew for titles
+        description: Table that contains the principal cast/crew for titles
         columns:
           - name: tconst
             description: alphanumeric unique identifier of the title
@@ -119,7 +119,7 @@ sources:
           - name: characters
             description: the name of the character played if applicable, else NULL
       - name: title_ratings
-        description: This table contains the IMDb rating and votes information for titles
+        description: Table that contains the IMDb rating and votes information for titles
         columns:
           - name: tconst
             description: alphanumeric unique identifier of the title

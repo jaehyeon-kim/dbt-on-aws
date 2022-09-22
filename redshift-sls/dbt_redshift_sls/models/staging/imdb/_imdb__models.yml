@@ -1,17 +1,17 @@
 version: 2
 
 models:
-  - name: stg_imdb_name_basics
+  - name: stg_imdb__name_basics
     description: The staging model of name_basics
-  - name: stg_imdb_title_akas
+  - name: stg_imdb__title_akas
     description: The staging model of title_akas
-  - name: stg_imdb_title_basics
+  - name: stg_imdb__title_basics
     description: The staging model of title_basics
-  - name: stg_imdb_title_crews
+  - name: stg_imdb__title_crews
     description: The staging model of title_crews
-  - name: stg_imdb_title_episodes
+  - name: stg_imdb__title_episodes
     description: The staging model of title_episodes
-  - name: stg_imdb_title_principals
+  - name: stg_imdb__title_principals
     description: The staging model of title_principals
-  - name: stg_imdb_title_ratings
+  - name: stg_imdb__title_ratings
     description: The staging model of title_ratings
