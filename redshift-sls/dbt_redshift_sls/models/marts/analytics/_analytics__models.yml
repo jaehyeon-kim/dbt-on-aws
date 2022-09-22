@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: names
+    description: Table that contains all names with addtional details
+  - name: titles
+    description: Table that contains all titles with additional details
+  - name: genre_titles
+    description: Table that contains basic title details after flattening genres
