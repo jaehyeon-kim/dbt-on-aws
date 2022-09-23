@@ -3,7 +3,13 @@ version: 2
 models:
   - name: names
     description: Table that contains all names with addtional details
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_imdb__name_basics')
   - name: titles
     description: Table that contains all titles with additional details
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('stg_imdb__title_basics')
   - name: genre_titles
     description: Table that contains basic title details after flattening genres
