@@ -1,6 +1,6 @@
 -- // create db schemas
 create schema if not exists imdb;
-create schema if not exists marts;
+create schema if not exists imdb_analytics;
 
 -- // create db user and group
 create user dbt with password '<password>';
@@ -11,13 +11,13 @@ grant usage on schema imdb to group dbt;
 grant create on schema imdb to group dbt;
 grant all on all tables in schema imdb to group dbt;
 
-grant usage on schema marts to group dbt;
-grant create on schema marts to group dbt;
-grant all on all tables in schema marts to group dbt;
+grant usage on schema imdb_analytics to group dbt;
+grant create on schema imdb_analytics to group dbt;
+grant all on all tables in schema imdb_analytics to group dbt;
 
 -- reassign schema ownership to dbt
 alter schema imdb owner to dbt;
-alter schema marts owner to dbt;
+alter schema imdb_analytics owner to dbt;
 
 -- // copy data to tables
 -- name_basics
