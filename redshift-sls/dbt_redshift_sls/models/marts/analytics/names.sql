@@ -1,3 +1,12 @@
+{{
+    config(
+        schema='analytics',
+        materialized='table',
+        sort='name_id',
+        dist='name_id'
+    )
+}}
+
 with names as (
 
     select * from {{ ref('stg_imdb__name_basics') }}

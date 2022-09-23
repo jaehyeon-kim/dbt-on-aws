@@ -1,3 +1,12 @@
+{{
+    config(
+        schema='analytics',
+        materialized='table',
+        sort='genre',
+        dist='genre'
+    )
+}}
+
 with titles as (
 
     select * from {{ ref('stg_imdb__title_basics') }}
