@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: names
-    description: Table that contains all names with addtional details
+    description: Table that contains all names with additional details
     tests:
       - dbt_utils.equal_rowcount:
           compare_model: ref('stg_imdb__name_basics')
