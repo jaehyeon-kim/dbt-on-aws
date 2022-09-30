@@ -14,14 +14,14 @@ output "glue_dbt_policy_arn" {
   value       = aws_iam_policy.glue_dbt.arn
 }
 
-# athena
+# Athena
 output "aws_athena_workgroup_arn" {
   description = "ARN of Athena workgroup"
   value       = aws_athena_workgroup.dbt.arn
 }
 
 # Default bucket
-output "data_bucket_name" {
+output "default_bucket_name" {
   description = "Default bucket name"
   value       = aws_s3_bucket.default_bucket.id
 }
