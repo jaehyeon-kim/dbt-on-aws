@@ -4,7 +4,7 @@ export DBT_ROLE_ARN=$(terraform -chdir=./infra output --raw glue_interactive_ses
 export DBT_S3_LOCATION=$(terraform -chdir=./infra output --raw default_bucket_name)
 
 cat << EOF > ~/.dbt/profiles.yml
-dbt_glue:
+dbt_glue_proj:
   outputs:
     dev:
       type: glue
@@ -18,6 +18,6 @@ dbt_glue:
       location: "${DBT_S3_LOCATION}"
       query_timeout_in_seconds: 300
       idle_timeout: 60
-      glue_version: 3.0
+      glue_version: "3.0"
   target: dev
 EOF

@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: imdb
+    description: Subsets of IMDb data, which are available for access to customers for personal and non-commercial use
+    tables:
+      - name: title_ratings
+        description: Table that contains the IMDb rating and votes information for titles
+        external:
+          location: s3://glue-590312749310-ap-southeast-2/title_ratings
+          using: csv
+          options:
+            sep: "\t"
+            header: "true"
+            columns:
+              - name: tconst
+                description: alphanumeric unique identifier of the title
+                tests:
+                  - unique
+                  - not_null
+              - name: average_rating
+                description: weighted average of all the individual user ratings
+              - name: num_votes
+                description: number of votes the title has received

@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: stg_imdb__title_ratings
+    description: The staging model of title_ratings
