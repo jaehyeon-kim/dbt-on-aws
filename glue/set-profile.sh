@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-cd glue
 dbt_role_arn=$(terraform -chdir=./infra output --raw glue_interactive_session_role_arn)
 dbt_s3_location=$(terraform -chdir=./infra output --raw default_bucket_name)
 
