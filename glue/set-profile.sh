@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cd glue
 dbt_role_arn=$(terraform -chdir=./infra output --raw glue_interactive_session_role_arn)
 dbt_s3_location=$(terraform -chdir=./infra output --raw default_bucket_name)
 
@@ -14,7 +15,7 @@ dbt_glue_proj:
       worker_type: G.1X
       schema: imdb
       database: imdb
-      session_provisioning_timeout_in_seconds: 120
+      session_provisioning_timeout_in_seconds: 240
       location: "${dbt_s3_location}"
       query_timeout_in_seconds: 300
       idle_timeout: 60

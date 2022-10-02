@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-s3_bucket="<s3-bucket-name>"
+cd glue
+s3_bucket=$(terraform -chdir=./infra output --raw default_bucket_name)
 hostname="datasets.imdbws.com"
 declare -a file_names=(
   "name.basics.tsv.gz" \
