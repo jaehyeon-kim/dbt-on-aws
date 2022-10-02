@@ -1,4 +1,4 @@
-# iam role
+# glue role for interactive session
 resource "aws_iam_role" "glue_interactive_session" {
   name = "${local.name}-glue-interactive-session"
 
@@ -152,7 +152,7 @@ data "aws_iam_policy_document" "glue_dbt" {
       "s3:ListBucket"
     ]
 
-    resources = ["arn:aws:s3:::aws-dbt-glue-datalake-${local.default_bucket.name}"]
+    resources = ["arn:aws:s3:::${local.default_bucket.name}"]
   }
 
   statement {
@@ -163,13 +163,89 @@ data "aws_iam_policy_document" "glue_dbt" {
       "s3:DeleteObject"
     ]
 
-    resources = ["arn:aws:s3:::aws-dbt-glue-datalake-${local.default_bucket.name}/*"]
+    resources = ["arn:aws:s3:::${local.default_bucket.name}/*"]
+  }
+}
+
+# glue crawler
+resource "aws_glue_catalog_database" "imdb_db" {
+  name        = "imdb"
+  description = "Database that contains IMDb source and target datasets"
+}
+
+resource "aws_glue_crawler" "imdb_crawler" {
+  name          = "${local.name}-imdb-crawler"
+  database_name = aws_glue_catalog_database.imdb_db.name
+  role          = aws_iam_role.imdb_crawler.arn
+
+  dynamic "s3_target" {
+    for_each = local.glue.s3_prefixes
+
+    content {
+      path = s3_target.value
+    }
+  }
+
+  tags = local.tags
+}
+
+resource "aws_iam_role" "imdb_crawler" {
+  name = "${local.name}-imdb-crawler"
+
+  assume_role_policy = data.aws_iam_policy_document.imdb_crawler_assume_role_policy.json
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
+    aws_iam_policy.imdb_crawler.arn
+  ]
+
+  tags = local.tags
+}
+
+data "aws_iam_policy_document" "imdb_crawler_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type = "Service"
+      identifiers = [
+        "glue.amazonaws.com"
+      ]
+    }
+  }
+}
+
+resource "aws_iam_policy" "imdb_crawler" {
+  name   = "${local.name}-imdb-crawler"
+  path   = "/"
+  policy = data.aws_iam_policy_document.imdb_crawler.json
+  tags   = local.tags
+}
+
+data "aws_iam_policy_document" "imdb_crawler" {
+  statement {
+    actions = [
+      "s3:GetBucketLocation",
+      "s3:ListBucket"
+    ]
+
+    resources = ["arn:aws:s3:::${local.default_bucket.name}"]
+  }
+
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+      "s3:GetObject",
+      "s3:DeleteObject"
+    ]
+
+    resources = ["arn:aws:s3:::${local.default_bucket.name}/*"]
   }
 }
 
 # athena workgroup
-resource "aws_athena_workgroup" "dbt" {
-  name = "${local.name}-wg"
+resource "aws_athena_workgroup" "imdb" {
+  name = "${local.name}-imdb"
 
   configuration {
     enforce_workgroup_configuration    = true
