@@ -15,7 +15,7 @@ dbt_glue_proj:
       schema: imdb
       database: imdb
       session_provisioning_timeout_in_seconds: 240
-      location: "${dbt_s3_location}"
+      location: "s3://${dbt_s3_location}"
       query_timeout_in_seconds: 300
       idle_timeout: 60
       glue_version: "3.0"
