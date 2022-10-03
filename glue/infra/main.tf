@@ -118,7 +118,8 @@ data "aws_iam_policy_document" "glue_dbt" {
       "glue:CreateDatabase",
       "glue:BatchDeleteTableVersion",
       "glue:BatchDeleteTable",
-      "glue:DeletePartition"
+      "glue:DeletePartition",
+      "glue:GetUserDefinedFunctions"
     ]
 
     resources = [
@@ -174,19 +175,30 @@ resource "aws_glue_catalog_database" "imdb_db" {
 }
 
 resource "aws_glue_crawler" "imdb_crawler" {
-  name          = "${local.name}-imdb-crawler"
+  count = length(local.glue.tables)
+
+  name          = local.glue.tables[count.index].name
   database_name = aws_glue_catalog_database.imdb_db.name
   role          = aws_iam_role.imdb_crawler.arn
+  classifiers   = [aws_glue_classifier.imdb_crawler[count.index].id]
 
-  dynamic "s3_target" {
-    for_each = local.glue.s3_prefixes
-
-    content {
-      path = s3_target.value
-    }
+  s3_target {
+    path = "s3://${local.default_bucket.name}/${local.glue.tables[count.index].name}"
   }
 
   tags = local.tags
+}
+
+resource "aws_glue_classifier" "imdb_crawler" {
+  count = length(local.glue.tables)
+
+  name = local.glue.tables[count.index].name
+
+  csv_classifier {
+    contains_header = "PRESENT"
+    delimiter       = "\t"
+    header          = local.glue.tables[count.index].header
+  }
 }
 
 resource "aws_iam_role" "imdb_crawler" {

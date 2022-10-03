@@ -14,14 +14,14 @@ locals {
   }
 
   glue = {
-    s3_prefixes = [
-      "s3://${local.default_bucket.name}/name_basics",
-      "s3://${local.default_bucket.name}/title_akas",
-      "s3://${local.default_bucket.name}/title_basics",
-      "s3://${local.default_bucket.name}/title_crew",
-      "s3://${local.default_bucket.name}/title_episode",
-      "s3://${local.default_bucket.name}/title_principals",
-      "s3://${local.default_bucket.name}/title_ratings"
+    tables = [
+      { name = "name_basics", header = ["nconst", "primaryName", "birthYear", "deathYear", "primaryProfession", "knownForTitles"] },
+      { name = "title_akas", header = ["titleId", "ordering", "title", "region", "language", "types", "attributes", "isOriginalTitle"] },
+      { name = "title_basics", header = ["tconst", "titleType", "primaryTitle", "originalTitle", "isAdult", "startYear", "endYear", "runtimeMinutes", "genres"] },
+      { name = "title_crew", header = ["tconst", "directors", "writers"] },
+      { name = "title_episode", header = ["tconst", "parentTconst", "seasonNumber", "episodeNumber"] },
+      { name = "title_principals", header = ["tconst", "ordering", "nconst", "category", "job", "characters"] },
+      { name = "title_ratings", header = ["tconst", "averageRating", "numVotes"] }
     ]
   }
 

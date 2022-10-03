@@ -22,12 +22,16 @@ output "glue_database" {
 
 output "imdb_crawler_name" {
   description = "Name of Glue imdb crawler"
-  value       = aws_glue_crawler.imdb_crawler.name
+  value = {
+    for k, v in aws_glue_crawler.imdb_crawler : k => v.name
+  }
 }
 
 output "imdb_crawler_arn" {
   description = "ARN of Glue imdb crawler"
-  value       = aws_glue_crawler.imdb_crawler.arn
+  value = {
+    for k, v in aws_glue_crawler.imdb_crawler : k => v.arn
+  }
 }
 
 # Athena
