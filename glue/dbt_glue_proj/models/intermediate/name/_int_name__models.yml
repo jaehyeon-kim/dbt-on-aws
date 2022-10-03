@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: int_known_for_titles_flattened_from_name_basics
+    description: View that contains known titles of people, which is flattened from name_basics
+  - name: int_primary_profession_flattened_from_name_basics
+    description: View that contains primary professions of people, which is flattened from name_basics

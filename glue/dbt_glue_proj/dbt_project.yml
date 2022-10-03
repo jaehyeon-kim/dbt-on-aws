@@ -32,3 +32,14 @@ clean-targets: # directories to be removed by `dbt clean`
 models:
   dbt_glue_proj:
     +materialized: view
+    +tags:
+      - "imdb"
+    staging:
+      +tags:
+        - "staging"
+    intermediate:
+      +tags:
+        - "intermediate"
+    marts:
+      +tags:
+        - "marts"

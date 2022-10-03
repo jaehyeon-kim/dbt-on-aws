@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: int_genres_flattened_from_title_basics
+    description: View that contains title genres, which is flattened from title_basics
+  - name: int_directors_flattened_from_title_crews
+    description: View that contains title directors, which is flattened from title_crews
+  - name: int_writers_flattened_from_title_crews
+    description: View that contains title writers, which is flattened from title_crews
