@@ -6,6 +6,9 @@
   "[sql]": {
     "editor.tabSize": 4
   },
+  "[python]": {
+    "editor.tabSize": 4
+  },
   "[terraform]": {
     "editor.defaultFormatter": "hashicorp.terraform",
     "editor.formatOnSave": false,
