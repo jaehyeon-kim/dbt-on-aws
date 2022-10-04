@@ -171,7 +171,12 @@ data "aws_iam_policy_document" "glue_dbt" {
 # glue crawler
 resource "aws_glue_catalog_database" "imdb_db" {
   name        = "imdb"
-  description = "Database that contains IMDb source and target datasets"
+  description = "Database that contains IMDb staging/intermediate model datasets"
+}
+
+resource "aws_glue_catalog_database" "imdb_db_marts" {
+  name        = "imdb_analytics"
+  description = "Database that contains IMDb marts model datasets"
 }
 
 resource "aws_glue_crawler" "imdb_crawler" {

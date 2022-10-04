@@ -15,9 +15,14 @@ output "glue_dbt_policy_arn" {
 }
 
 # Glue database/crawler
-output "glue_database" {
-  description = "Glue database name"
+output "imdb_db" {
+  description = "Database that contains IMDb staging/intermediate model datasets"
   value       = aws_glue_catalog_database.imdb_db.name
+}
+
+output "imdb_db_marts" {
+  description = "Database that contains IMDb marts model datasets"
+  value       = aws_glue_catalog_database.imdb_db_marts.name
 }
 
 output "imdb_crawler_name" {
