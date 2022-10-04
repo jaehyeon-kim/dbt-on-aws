@@ -23,7 +23,7 @@ directed as (
 
 ),
 
-writted as (
+written as (
 
     select
         name_id,
@@ -48,7 +48,7 @@ final as (
         w.num_written
     from names as n
     left join directed as d on n.name_id = d.name_id
-    left join writted as w on n.name_id = w.name_id
+    left join written as w on n.name_id = w.name_id
 
 )
 
