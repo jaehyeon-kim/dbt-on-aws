@@ -1,9 +1,3 @@
-{{
-    config(
-        materialized='table'
-    )
-}}
-
 with source as (
 
     select * from {{ source('imdb', 'title_ratings') }}
