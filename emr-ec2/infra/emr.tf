@@ -6,7 +6,7 @@ resource "aws_emr_cluster" "emr_cluster" {
   autoscaling_role                  = aws_iam_role.emr_autoscaling_role.arn
   applications                      = local.emr.applications
   ebs_root_volume_size              = local.emr.ebs_root_volume_size
-  log_uri                           = "s3n://${aws_s3_bucket.default_bucket[0].id}/elasticmapreduce/"
+  log_uri                           = "s3n://${aws_s3_bucket.default_bucket.id}/elasticmapreduce/"
   step_concurrency_level            = 256
   keep_job_flow_alive_when_no_steps = true
   termination_protection            = false
@@ -375,4 +375,26 @@ resource "local_sensitive_file" "emr_pem_file" {
   filename        = pathexpand("${path.module}/key-pair/${local.name}-emr-key.pem")
   file_permission = "0400"
   content         = tls_private_key.emr_pk.private_key_pem
+}
+
+# athena workgroup
+resource "aws_athena_workgroup" "imdb" {
+  name = "${local.name}-imdb"
+
+  configuration {
+    enforce_workgroup_configuration    = true
+    publish_cloudwatch_metrics_enabled = false
+
+    result_configuration {
+      output_location = "s3://${local.default_bucket.name}/athena/"
+
+      encryption_configuration {
+        encryption_option = "SSE_S3"
+      }
+    }
+  }
+
+  force_destroy = true
+
+  tags = local.tags
 }

@@ -22,8 +22,7 @@ locals {
   }
 
   default_bucket = {
-    to_create = true
-    name      = "${local.name}-${data.aws_caller_identity.current.account_id}-${local.region}"
+    name = "${local.name}-${data.aws_caller_identity.current.account_id}-${local.region}"
   }
 
   emr = {

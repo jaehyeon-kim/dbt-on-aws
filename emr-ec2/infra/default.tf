@@ -18,8 +18,6 @@ module "vpc" {
 }
 
 resource "aws_s3_bucket" "default_bucket" {
-  count = local.default_bucket.to_create ? 1 : 0
-
   bucket = local.default_bucket.name
 
   force_destroy = true
@@ -28,16 +26,12 @@ resource "aws_s3_bucket" "default_bucket" {
 }
 
 resource "aws_s3_bucket_acl" "default_bucket" {
-  count = local.default_bucket.to_create ? 1 : 0
-
-  bucket = aws_s3_bucket.default_bucket[0].id
+  bucket = aws_s3_bucket.default_bucket.id
   acl    = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default_bucket" {
-  count = local.default_bucket.to_create ? 1 : 0
-
-  bucket = aws_s3_bucket.default_bucket[0].bucket
+  bucket = aws_s3_bucket.default_bucket.bucket
 
   rule {
     apply_server_side_encryption_by_default {

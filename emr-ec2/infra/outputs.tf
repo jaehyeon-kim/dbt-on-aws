@@ -56,11 +56,9 @@ output "vpn_autoscaling_group_name" {
 }
 
 # Default bucket
-output "data_bucket_name" {
+output "default_bucket_name" {
   description = "Default bucket name"
-  value = {
-    for k, v in aws_s3_bucket.default_bucket : k => v.id
-  }
+  value       = aws_s3_bucket.default_bucket.id
 }
 
 # EMR
@@ -112,4 +110,10 @@ output "emr_slave_sg" {
 output "emr_vpn_access_sg" {
   description = "EMR cluster VPN access sg"
   value       = aws_security_group.emr_vpn_access.id
+}
+
+# Athena
+output "aws_athena_workgroup_arn" {
+  description = "ARN of Athena workgroup"
+  value       = aws_athena_workgroup.imdb.arn
 }
