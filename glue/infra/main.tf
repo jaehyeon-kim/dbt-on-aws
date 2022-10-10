@@ -277,6 +277,8 @@ resource "aws_athena_workgroup" "imdb" {
     }
   }
 
+  force_destroy = true
+
   tags = local.tags
 }
 
