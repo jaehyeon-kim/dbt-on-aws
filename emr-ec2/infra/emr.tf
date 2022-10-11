@@ -59,7 +59,7 @@ resource "aws_emr_managed_scaling_policy" "emr_scaling_policy" {
   compute_limits {
     unit_type              = "Instances"
     minimum_capacity_units = 1
-    maximum_capacity_units = 5
+    maximum_capacity_units = 2
   }
 }
 
