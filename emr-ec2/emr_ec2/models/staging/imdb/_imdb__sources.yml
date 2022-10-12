@@ -1,0 +1,227 @@
+version: 2
+
+sources:
+  - name: imdb
+    description: Subsets of IMDb data, which are available for access to customers for personal and non-commercial use
+    tables:
+      - name: name_basics
+        description: Table that contains basic information for names
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/name_basics/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: nconst
+            data_type: string
+            description: alphanumeric unique identifier of the name/person
+            tests:
+              - unique
+              - not_null
+          - name: primaryname
+            data_type: string
+            description: name by which the person is most often credited
+          - name: birthyear
+            data_type: string
+            description: birth year in YYYY format
+          - name: deathyear
+            data_type: string
+            description: death year in YYYY format if applicable, else NULL
+          - name: primaryprofession
+            data_type: string
+            description: the top-3 professions of the person
+          - name: knownfortitles
+            data_type: string
+            description: titles the person is known for
+      - name: title_akas
+        description: Table that contains different distribution of titles
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_akas/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: titleid
+            data_type: string
+            description: a tconst, an alphanumeric unique identifier of the title
+            tests:
+              - not_null
+          - name: ordering
+            data_type: int
+            description: a number to uniquely identify rows for a given titleId
+            tests: # fails because incorrect recognition of header row
+              - not_null
+          - name: title
+            data_type: string
+            description: the localized title
+          - name: region
+            data_type: string
+            description: the region for this version of the title
+          - name: language
+            data_type: string
+            description: the language of the title
+          - name: types
+            data_type: string
+            description: >
+              enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". new values may be added in the future without warning
+          - name: attributes
+            data_type: string
+            description: additional terms to describe this alternative title, not enumerated
+          - name: isoriginaltitle
+            data_type: string
+            description: flag that indicates whether it is an original title or not
+      - name: title_basics
+        description: Table that contains basic information of titles
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_basics/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: tconst
+            data_type: string
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: titletype
+            data_type: string
+            description: the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)
+          - name: primarytitle
+            data_type: string
+            description: the more popular title / the title used by the filmmakers on promotional materials at the point of release
+          - name: originaltitle
+            data_type: string
+            description: original title, in the original language
+          - name: isadult
+            data_type: string
+            description: flag that indicates whether it is an adult title or not
+          - name: startyear
+            data_type: string
+            description: represents the release year of a title. In the case of TV Series, it is the series start year
+          - name: endyear
+            data_type: string
+            description: TV Series end year. NULL for all other title types
+          - name: runtimeminutes
+            data_type: string
+            description: primary runtime of the title, in minutes
+          - name: genres
+            data_type: string
+            description: includes up to three genres associated with the title
+      - name: title_crew
+        description: Table that contains directors and writers of titles
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_crew/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: tconst
+            data_type: string
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: directors
+            data_type: string
+            description: director(s) of the given title
+          - name: writers
+            data_type: string
+            description: writer(s) of the given title
+      - name: title_episode
+        description: Table that contains TV episode information
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_episode/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: tconst
+            data_type: string
+            description: alphanumeric identifier of episode
+            tests:
+              - not_null
+          - name: parenttconst
+            data_type: string
+            description: alphanumeric identifier of the parent TV Series
+            tests:
+              - not_null
+          - name: seasonnumber
+            data_type: string
+            description: season number the episode belongs to
+          - name: episodenumber
+            data_type: string
+            description: episode number of the tconst in the TV series
+      - name: title_principals
+        description: Table that contains the principal cast/crew for titles
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_principals/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: tconst
+            data_type: string
+            description: alphanumeric unique identifier of the title
+            tests:
+              - not_null
+          - name: ordering
+            data_type: int
+            description: a number to uniquely identify rows for a given titleId
+            tests: # fails because incorrect recognition of header row
+              - not_null
+          - name: nconst
+            data_type: string
+            description: alphanumeric unique identifier of the name/person
+            tests:
+              - not_null
+          - name: category
+            data_type: string
+            description: the category of job that person was in
+          - name: job
+            data_type: string
+            description: the specific job title if applicable, else NULL
+          - name: characters
+            data_type: string
+            description: the name of the character played if applicable, else NULL
+      - name: title_ratings
+        description: Table that contains the IMDb rating and votes information for titles
+        external:
+          location: "s3://emr-ec2-590312749310-ap-southeast-2/title_ratings/"
+          row_format: >
+            serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            with serdeproperties (
+              'separatorChar'='\t'
+            )
+          table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: tconst
+            data_type: string
+            description: alphanumeric unique identifier of the title
+            tests:
+              - unique
+              - not_null
+          - name: averagerating
+            data_type: float
+            description: weighted average of all the individual user ratings
+          - name: numvotes
+            data_type: int
+            description: number of votes the title has received
