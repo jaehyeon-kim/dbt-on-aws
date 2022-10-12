@@ -117,3 +117,14 @@ output "aws_athena_workgroup_arn" {
   description = "ARN of Athena workgroup"
   value       = aws_athena_workgroup.imdb.arn
 }
+
+# Glue database
+output "imdb_db" {
+  description = "Database that contains IMDb staging/intermediate model datasets"
+  value       = aws_glue_catalog_database.imdb_db.name
+}
+
+output "imdb_db_marts" {
+  description = "Database that contains IMDb marts model datasets"
+  value       = aws_glue_catalog_database.imdb_db_marts.name
+}
