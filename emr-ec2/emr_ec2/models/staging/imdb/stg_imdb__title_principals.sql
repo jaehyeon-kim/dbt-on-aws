@@ -11,10 +11,18 @@ renamed as (
         ordering,
         nconst as name_id,
         category,
-        job,
-        replace(replace(replace(characters, '"', ""), "[", ""), "]", "") as characters
+        case when job = 'N' then null else job end as job,
+        case when characters = 'N' then null else characters end as characters        
     from source
+    where tconst <> 'tconst'
 
 )
 
-select * from renamed
+select 
+    title_id,
+    ordering,
+    name_id,
+    category,
+    job,
+    replace(replace(replace(characters, '"', ""), "[", ""), "]", "") as characters 
+from renamed

@@ -12,6 +12,7 @@ renamed as (
         cast(seasonnumber as int) season_number,
         cast(episodenumber as int) as episode_number
     from source
+    where tconst <> 'tconst'
 
 )
 

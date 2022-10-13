@@ -8,9 +8,10 @@ renamed as (
 
     select
         tconst as title_id,
-        directors,
-        writers
+        case when directors = 'N' then null else directors end as directors,
+        case when writers = 'N' then null else writers end as writers
     from source
+    where tconst <> 'tconst'
 
 )
 

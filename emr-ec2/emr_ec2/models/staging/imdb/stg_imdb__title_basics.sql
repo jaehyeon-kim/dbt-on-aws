@@ -15,8 +15,9 @@ renamed as (
         cast(startyear as int) as start_year,
         cast(endyear as int) as end_year,
         cast(runtimeminutes as int) as runtime_minutes,
-        genres
+        case when genres = 'N' then null else genres end as genres
     from source
+    where tconst <> 'tconst'
 
 )
 
