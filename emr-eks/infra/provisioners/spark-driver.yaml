@@ -1,0 +1,27 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: spark-driver
+spec:
+  labels:
+    type: karpenter
+    provisioner: spark-driver
+  ttlSecondsAfterEmpty: 30
+  requirements:
+    - key: "topology.kubernetes.io/zone"
+      operator: In
+      values: [${az}]
+    - key: karpenter.k8s.aws/instance-family
+      operator: In
+      values: [m4, m5]
+    - key: "karpenter.sh/capacity-type"
+      operator: In
+      values: ["on-demand"]
+  limits:
+    resources:
+      cpu: "1000"
+      memory: 1000Gi
+  provider:
+    launchTemplate: "karpenter-${cluster_name}"
+    subnetSelector:
+      karpenter.sh/discovery: ${cluster_name}
