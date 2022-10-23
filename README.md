@@ -1,6 +1,15 @@
 # dbt on AWS
 
+The [data build tool (dbt)](https://docs.getdbt.com/docs/introduction) is an effective data transformation tool and it supports key AWS analytics services – Redshift, Glue, EMR and Athena. This series discuss how to integrate dbt with those AWS services as well as popular open source table formats.
+
+- [Part 1 - Redshift](https://cevo.com.au/post/dbt-on-aws-part-1/)
+- [Part 2 - Glue](https://cevo.com.au/post/dbt-on-aws-part-2/)
+- [Part 3 – EMR on EC2](https://cevo.com.au/post/dbt-on-aws-part-3/)
+- More articles to come
+
 ![overview](./.imgs/dbt-on-aws.png)
+
+## Motivation
 
 In our experience delivering data solutions for our customers, we have observed a desire to move away from a centralised team function, responsible for the data collection, analysis and reporting, towards shifting this responsibility to an organisation’s lines of business (LOB) teams. The key driver for this comes from the recognition that LOBs retain the deep data knowledge and business understanding for their respective data domain; which improves the speed with which these teams can develop data solutions and gain customer insights. This shift away from centralised data engineering to LOBs exposed a skills and tooling gap.
 
@@ -28,10 +37,3 @@ Finally the following areas are supported by spark, however not supported by DBT
 - real time data processing
 
 Overall dbt can be used as an effective tool for data transformation in a wide range of data projects from data warehousing to data lake to data lakehouse. Also it can be more powerful with spark by its Python models feature.
-
-Series posts
-
-- [Part 1 - Redshift](https://cevo.com.au/post/dbt-on-aws-part-1/)
-- [Part 2 - Glue](https://cevo.com.au/post/dbt-on-aws-part-2/)
-- [Part 3 – EMR on EC2](https://cevo.com.au/post/dbt-on-aws-part-3/)
-- More articles to come
