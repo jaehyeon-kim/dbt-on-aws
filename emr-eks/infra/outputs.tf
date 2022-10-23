@@ -65,11 +65,6 @@ output "emr_on_eks_role_arn" {
   value       = module.eks_blueprints.emr_on_eks_role_arn
 }
 
-# output "eks_vpn_access_sg_id" {
-#   description = "EKS VPN access security group ID"
-#   value       = aws_security_group.eks_vpn_access.id
-# }
-
 # Athena
 output "aws_athena_workgroup_arn" {
   description = "ARN of Athena workgroup"

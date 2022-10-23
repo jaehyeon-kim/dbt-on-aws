@@ -11,19 +11,6 @@ module "eks_blueprints" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
-  # cluster_additional_security_group_ids = [aws_security_group.eks_vpn_access.id]
-
-  # cluster_security_group_additional_rules = {
-  #   vpn_access = {
-  #     description              = "VPN ingress to Kubernetes API"
-  #     protocol                 = "tcp"
-  #     from_port                = 0
-  #     to_port                  = 65535
-  #     source_security_group_id = aws_security_group.vpn[0].id
-  #     type                     = "ingress"
-  #   }
-  # }
-
   node_security_group_additional_rules = {
     ingress_self_all = {
       description = "Node to node all ports/protocols, recommended and required for Add-ons"
@@ -50,14 +37,6 @@ module "eks_blueprints" {
       type                          = "ingress"
       source_cluster_security_group = true
     }
-    # vpn_access = {
-    #   description              = "VPN ingress to nodes"
-    #   protocol                 = "tcp"
-    #   from_port                = 0
-    #   to_port                  = 65535
-    #   source_security_group_id = aws_security_group.vpn[0].id
-    #   type                     = "ingress"
-    # }
   }
 
   # EKS manage node groups
@@ -214,26 +193,3 @@ resource "aws_iam_policy" "emr_on_eks" {
     ]
   })
 }
-
-# # security group resources for vpn access
-# resource "aws_security_group" "eks_vpn_access" {
-#   name   = "${local.name}-eks-vpn-access"
-#   vpc_id = module.vpc.vpc_id
-
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-
-#   tags = local.tags
-# }
-
-# resource "aws_security_group_rule" "emr_vpn_inbound" {
-#   count                    = local.vpn.to_create ? 1 : 0
-#   type                     = "ingress"
-#   description              = "VPN access"
-#   security_group_id        = aws_security_group.eks_vpn_access.id
-#   protocol                 = "tcp"
-#   from_port                = 0
-#   to_port                  = 65535
-#   source_security_group_id = aws_security_group.vpn[0].id
-# }
