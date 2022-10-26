@@ -3,8 +3,6 @@ export EMR_ROLE_ARN=$(terraform -chdir=./infra output --json emr_on_eks_role_arn
 export DEFAULT_BUCKET_NAME=$(terraform -chdir=./infra output --raw default_bucket_name)
 export AWS_REGION=$(aws ec2 describe-availability-zones --query 'AvailabilityZones[0].[RegionName]' --output text)
 
-# test without local:///usr/lib/spark/jars/spark-hive-thriftserver_2.12-3.3.0-amzn-0.jar
-
 aws emr-containers start-job-run \
 --virtual-cluster-id $VIRTUAL_CLUSTER_ID \
 --name thrift-server \
@@ -14,7 +12,7 @@ aws emr-containers start-job-run \
 --job-driver '{
     "sparkSubmitJobDriver": {
         "entryPoint": "s3://'${DEFAULT_BUCKET_NAME}'/resources/jars/spark-thrift-server-1.0.0-SNAPSHOT.jar",
-        "sparkSubmitParameters": "--class io.jaehyeon.hive.SparkThriftServerRunner --jars s3://'${DEFAULT_BUCKET_NAME}'/resources/jars/spark-thrift-server-1.0.0-SNAPSHOT.jar,local:///usr/lib/spark/jars/spark-hive-thriftserver_2.12-3.3.0-amzn-0.jar --conf spark.executor.instances=2 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
+        "sparkSubmitParameters": "--class io.jaehyeon.hive.SparkThriftServerRunner --jars s3://'${DEFAULT_BUCKET_NAME}'/resources/jars/spark-thrift-server-1.0.0-SNAPSHOT.jar --conf spark.executor.instances=2 --conf spark.executor.memory=1G --conf spark.executor.cores=1 --conf spark.driver.cores=1"
         }
     }' \
 --configuration-overrides '{
