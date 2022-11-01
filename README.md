@@ -5,7 +5,7 @@ The [data build tool (dbt)](https://docs.getdbt.com/docs/introduction) is an eff
 - [Part 1 - Redshift](https://cevo.com.au/post/dbt-on-aws-part-1/)
 - [Part 2 - Glue](https://cevo.com.au/post/dbt-on-aws-part-2/)
 - [Part 3 – EMR on EC2](https://cevo.com.au/post/dbt-on-aws-part-3/)
-- More articles to come
+- [Part 4 – EMR on EKS](https://cevo.com.au/post/dbt-on-aws-part-4/)
 
 ![overview](./.imgs/dbt-on-aws.png)
 
