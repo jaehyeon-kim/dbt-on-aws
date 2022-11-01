@@ -2,7 +2,7 @@ from pyhive import hive
 import pandas as pd
 
 conn = hive.connect(
-    host="acb9357efbcf641a6b05c63f856c7a29-1443663997.ap-southeast-2.elb.amazonaws.com",
+    host="<hostname-of-spark-thrift-server-service>",
     port=10001,
     username="hadoop",
     auth=None
