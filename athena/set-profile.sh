@@ -12,7 +12,7 @@ athena_proj:
       region_name: ${aws_region}
       s3_staging_dir: "s3://${dbt_s3_location}/dbt/"
       schema: imdb
-      database: imdb
+      database: awsdatacatalog
       work_group: ${dbt_work_group}
       threads: 3
       aws_profile_name: cevo
