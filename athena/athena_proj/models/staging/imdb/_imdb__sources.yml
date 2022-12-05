@@ -31,7 +31,7 @@ sources:
               - not_null
           - name: ordering
             description: a number to uniquely identify rows for a given titleId
-            tests: # fails because incorrect recognition of header row
+            tests:
               - not_null
           - name: title
             description: the localized title
@@ -106,7 +106,7 @@ sources:
               - not_null
           - name: ordering
             description: a number to uniquely identify rows for a given titleId
-            tests: # fails because incorrect recognition of header row
+            tests:
               - not_null
           - name: nconst
             description: alphanumeric unique identifier of the name/person
