@@ -2,11 +2,11 @@
 
 The [data build tool (dbt)](https://docs.getdbt.com/docs/introduction) is an effective data transformation tool and it supports key AWS analytics services – Redshift, Glue, EMR and Athena. This series discuss how to integrate dbt with those AWS services as well as popular open source table formats.
 
-- [Part 1 - Redshift](https://cevo.com.au/post/dbt-on-aws-part-1/)
-- [Part 2 - Glue](https://cevo.com.au/post/dbt-on-aws-part-2/)
-- [Part 3 – EMR on EC2](https://cevo.com.au/post/dbt-on-aws-part-3/)
-- [Part 4 – EMR on EKS](https://cevo.com.au/post/dbt-on-aws-part-4/)
-- [Part 5 – Athena](https://cevo.com.au/post/dbt-on-aws-part-5/)
+- [Part 1 - Redshift](https://jaehyeon.me/blog/2022-09-28-dbt-on-aws-part-1-redshift/)
+- [Part 2 - Glue](https://jaehyeon.me/blog/2022-10-09-dbt-on-aws-part-2-glue/)
+- [Part 3 – EMR on EC2](https://jaehyeon.me/blog/2022-10-19-dbt-on-aws-part-3-emr-ec2/)
+- [Part 4 – EMR on EKS](https://jaehyeon.me/blog/2022-11-01-dbt-on-aws-part-4-emr-eks/)
+- [Part 5 – Athena](https://jaehyeon.me/blog/2022-12-06-dbt-on-aws-part-5-athena/)
 
 ![overview](./.imgs/dbt-on-aws.png)
 
