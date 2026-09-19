@@ -1,12 +1,18 @@
 # dbt on AWS
 
-The [data build tool (dbt)](https://docs.getdbt.com/docs/introduction) is an effective data transformation tool and it supports key AWS analytics services – Redshift, Glue, EMR and Athena. This series discuss how to integrate dbt with those AWS services as well as popular open source table formats.
+The [data build tool (dbt)](https://docs.getdbt.com/docs/introduction) does the transform step of ELT, and it has adapters for four AWS analytics services: Redshift, Glue, EMR and Athena. This repository holds five dbt projects that build the same IMDb data models on each of those services, with the Terraform that creates the AWS resources for each one. The model set is identical in all five folders, so each folder README states what its own path differs in: the adapter, how the connection is made, and where the data is stored.
 
-- [Part 1 - Redshift](https://jaehyeon.me/blog/2022-09-28-dbt-on-aws-part-1-redshift/)
-- [Part 2 - Glue](https://jaehyeon.me/blog/2022-10-09-dbt-on-aws-part-2-glue/)
-- [Part 3 – EMR on EC2](https://jaehyeon.me/blog/2022-10-19-dbt-on-aws-part-3-emr-ec2/)
-- [Part 4 – EMR on EKS](https://jaehyeon.me/blog/2022-11-01-dbt-on-aws-part-4-emr-eks/)
-- [Part 5 – Athena](https://jaehyeon.me/blog/2022-12-06-dbt-on-aws-part-5-athena/)
+Every folder deploys real AWS resources and they cost money while they exist. Each folder README ends with the `terraform -chdir=infra destroy` command that removes them.
+
+## Folders
+
+| Folder | Adapter | Connection | Storage | Post |
+| --- | --- | --- | --- | --- |
+| [redshift-sls](./redshift-sls/) | `dbt-redshift` | Redshift Serverless workgroup in a private subnet, reached over a SoftEther VPN | Native Redshift tables, loaded by `COPY` from S3 | [Data Build Tool (dbt) for Effective Data Transformation on AWS – Part 1 Redshift](https://jaehyeon.me/blog/2022-09-28-dbt-on-aws-part-1-redshift/) |
+| [glue](./glue/) | `dbt-glue` | Glue interactive session assumed through an IAM role, started by dbt | Parquet on S3 in the Glue Data Catalog, sources built by Glue crawlers | [Data Build Tool (dbt) for Effective Data Transformation on AWS – Part 2 Glue](https://jaehyeon.me/blog/2022-10-09-dbt-on-aws-part-2-glue/) |
+| [emr-ec2](./emr-ec2/) | `dbt-spark` | Spark Thrift Server started as an EMR step, reached over a SoftEther VPN | Parquet on S3 in the Glue Data Catalog, sources built by `dbt_external_tables` | [Data Build Tool (dbt) for Effective Data Transformation on AWS – Part 3 EMR on EC2](https://jaehyeon.me/blog/2022-10-19-dbt-on-aws-part-3-emr-ec2/) |
+| [emr-eks](./emr-eks/) | `dbt-spark` | Spark Thrift Server run as an EMR on EKS job, exposed by a Kubernetes service | Parquet on S3 in the Glue Data Catalog, sources built by `dbt_external_tables` | [Data Build Tool (dbt) for Effective Data Transformation on AWS – Part 4 EMR on EKS](https://jaehyeon.me/blog/2022-11-01-dbt-on-aws-part-4-emr-eks/) |
+| [athena](./athena/) | `dbt-athena-adapter` | Athena workgroup over the AWS API, no cluster and no VPN | Parquet on S3 in the Glue Data Catalog, sources built by Glue crawlers | [Data Build Tool (dbt) for Effective Data Transformation on AWS – Part 5 Athena](https://jaehyeon.me/blog/2022-12-06-dbt-on-aws-part-5-athena/) |
 
 ![overview](./.imgs/dbt-on-aws.png)
 
@@ -38,3 +44,9 @@ Finally the following areas are supported by spark, however not supported by DBT
 - real time data processing
 
 Overall dbt can be used as an effective tool for data transformation in a wide range of data projects from data warehousing to data lake to data lakehouse. Also it can be more powerful with spark by its Python models feature.
+
+## License
+
+This repository is released under the MIT License. See [LICENSE](./LICENSE).
+
+`emr-eks/hive-on-spark-in-kubernetes` is an exception. It was adapted from [hive-on-spark-in-kubernetes](https://github.com/mykidong/hive-on-spark-in-kubernetes) by Kidong Lee, described in the article [Hive on Spark in Kubernetes](https://itnext.io/hive-on-spark-in-kubernetes-115c8e9fa5c1) that part 4 links. Only the `SparkThriftServerRunner` wrapper class and its POM were taken, with the dependency scopes changed. That folder carries no licence file of its own, and GitHub currently blocks access to the upstream repository, so its terms could not be checked. The MIT licence above does not cover that folder.
